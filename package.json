@@ -6,12 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "format": "prettier --write src",
+    "prepare": "husky"
   },
   "dependencies": {
     "solid-js": "^1.9.12"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/eslint-parser": "^7.28.6",
+    "@babel/preset-react": "^7.28.5",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.3",
     "vite": "^8.0.9",
     "vite-plugin-solid": "^2.11.12"
   }
