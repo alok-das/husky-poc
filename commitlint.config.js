@@ -25,25 +25,61 @@
 //
 // =============================================================================
 
-export default {
-  // Extend a shareable config as the base.
-  // Options:
-  //   '@commitlint/config-conventional'  — Conventional Commits standard (most common)
-  //   '@commitlint/config-angular'       — Angular commit style
-  //   '@commitlint/config-lerna-scopes'  — Enforces scopes to match lerna package names
-  extends: ['@commitlint/config-conventional'],
+const VALID_TYPES = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore', 'perf', 'ci', 'build', 'revert', 'wip'];
+const FORMAT = /^(\d{6,}):\s(\w+)\s-\s(.+)$/;
 
-  // Optional: override the commit message parser.
-  // Useful when using a non-standard delimiter or custom pattern.
-  // parserPreset: {
-  //   parserOpts: {
-  //     headerPattern: /^(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$/,
-  //     // Example for JIRA prefix: /^(PROJ-\d+) (\w+)(?:\((\w+)\))?: (.+)$/
-  //     headerCorrespondence: ['type', 'scope', 'subject'],
-  //   },
-  // },
+export default {
+  extends: [],
+
+  // Custom format: "000000: type - message"
+  // - ticket: minimum 6 numeric digits
+  // - type:   one of the allowed types below
+  // - message: plain description
+  parserPreset: {
+    parserOpts: {
+      headerPattern: FORMAT,
+      headerCorrespondence: ['ticket', 'type', 'subject'],
+    },
+  },
+
+  plugins: [
+    {
+      rules: {
+        'validate-commit-format': ({ header }) => {
+          const match = FORMAT.exec(header);
+          if (!match) {
+            return [
+              false,
+              `Invalid commit message format.\n\n` +
+              `  Expected : "123456: type - your message"\n` +
+              `  Received : "${header}"\n\n` +
+              `  Rules:\n` +
+              `    ✗ Ticket ID must be at least 6 numeric digits\n` +
+              `    ✗ Followed by ": " (colon + space)\n` +
+              `    ✗ Then a valid type: ${VALID_TYPES.join(', ')}\n` +
+              `    ✗ Then " - " (space + hyphen + space)\n` +
+              `    ✗ Then a description\n\n` +
+              `  Example: "123456: feat - add login page"`,
+            ];
+          }
+          const [, , type] = match;
+          if (!VALID_TYPES.includes(type)) {
+            return [
+              false,
+              `Invalid type "${type}".\n\n` +
+              `  Allowed types: ${VALID_TYPES.join(', ')}\n\n` +
+              `  Example: "123456: feat - add login page"`,
+            ];
+          }
+          return [true, ''];
+        },
+      },
+    },
+  ],
 
   rules: {
+    'validate-commit-format': [2, 'always'],
+
     // =========================================================================
     // TYPE — the category of change (e.g. feat, fix, chore)
     // =========================================================================
@@ -73,10 +109,6 @@ export default {
     // 'type-empty': [2, 'never']  → blocks commits with no type
     // 'type-empty': [0, 'never']  → disables the check entirely
     'type-empty': [2, 'never'],
-
-    // Case of the type.
-    // Options: 'lower-case' | 'upper-case' | 'camel-case' | 'pascal-case' | 'sentence-case' | 'start-case' | 'snake-case' | 'kebab-case'
-    // Example: 'lower-case' → feat ✅ | Feat ❌
     'type-case': [2, 'always', 'lower-case'],
 
     // =========================================================================
@@ -101,18 +133,9 @@ export default {
     // SUBJECT — the short description after the colon
     // =========================================================================
 
-    // Subject must never be empty.
     'subject-empty': [2, 'never'],
-
-    // No trailing period at the end of the subject.
-    // Example: "add login button." ❌  |  "add login button" ✅
     'subject-full-stop': [2, 'never', '.'],
-
-    // Case of the subject.
-    // Options: 'lower-case' | 'upper-case' | 'sentence-case' | 'start-case' | 'camel-case' | 'pascal-case'
-    // Example (lower-case):    "add login button" ✅  |  "Add login button" ❌
-    // Example (sentence-case): "Add login button" ✅  |  "add login button" ❌
-    'subject-case': [2, 'always', 'lower-case'],
+    'subject-case': [0],
 
     // Maximum length of the subject line.
     // Keeps subjects readable in git log and GitHub UI.
