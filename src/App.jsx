@@ -5,7 +5,13 @@ import heroImg from './assets/hero.png';
 import './App.css';
 
 function App() {
-  const [count, setCount] = createSignal(0);
+  const [count, 
+    
+    
+    
+    setCount
+  
+  ] = createSignal(  0  );
 
   return (
     <>
