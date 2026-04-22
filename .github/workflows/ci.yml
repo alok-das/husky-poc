@@ -34,4 +34,8 @@ jobs:
       - name: Validate commit messages
         run: |
           # Validate all commits in the push/PR
-          npx commitlint --from ${{ github.event.pull_request.base.sha || 'HEAD~1' }} --to HEAD --verbose
+          FROM_SHA=${{ github.event.pull_request.base.sha }}
+          if [ -z "$FROM_SHA" ]; then
+            FROM_SHA=HEAD~1
+          fi
+          npx commitlint --from "$FROM_SHA" --to HEAD --verbose
