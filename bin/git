@@ -15,7 +15,7 @@ for arg in "$@"; do
     case "$arg" in
       core.hooksPath=*)
         echo ""
-        echo "❌ ERROR: Overriding core.hooksPath is disabled in this project."
+        echo "❌ ERROR: Overriding core.hooksPath is disabled in this project"
         echo "   All pre-commit and commit-msg checks are mandatory."
         echo ""
         exit 1
