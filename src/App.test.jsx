@@ -12,4 +12,11 @@ describe('App', () => {
     const { getByText } = render(() => <App />);
     expect(getByText('Count is 0')).toBeTruthy();
   });
+
+  it('increments count when button is clicked', () => {
+    const { getByText } = render(() => <App />);
+    const button = getByText('Count is 0');
+    button.click();
+    expect(getByText('Count is 1')).toBeTruthy();
+  });
 });
