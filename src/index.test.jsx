@@ -42,11 +42,11 @@ describe('index.jsx', () => {
     // Check that stylesheets were loaded (index.css should be loaded)
     expect(stylesheets.length).toBeGreaterThanOrEqual(0);
   });
-  
-    it('should execute index.jsx without errors', async () => {
-      // This will import and execute index.jsx, covering its statements
-      await import('./index.jsx');
-      const root = document.getElementById('root');
-      expect(root).not.toBeNull();
-    });
+
+  it('should execute index.jsx without errors', async () => {
+    // This will import and execute index.jsx, covering its statements
+    await import('./index.jsx');
+    const root = document.getElementById('root');
+    expect(root).not.toBeNull();
+  });
 });
