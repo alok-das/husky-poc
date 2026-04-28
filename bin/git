@@ -1,30 +1,21 @@
 #!/bin/sh
 prev=""
-is_commit="0"
 for arg in "$@"; do
-  case "$arg" in
-    --)
-      break
-      ;;
-    commit)
-      is_commit="1"
-      ;;
-    --no-verify|-n)
-      if [ "$is_commit" = "1" ]; then
-        echo ""
-        echo "❌ ERROR: --no-verify is disabled in this project."
-        echo "   All pre-commit and commit-msg checks are mandatory."
-        echo "   Fix your code or commit message to proceed."
-        echo ""
-        exit 1
-      fi
-      ;;
-  esac
+  # Block --no-verify and -n flag
+  if [ "$arg" = "--no-verify" ] || [ "$arg" = "-n" ]; then
+    echo ""
+    echo "❌ ERROR: --no-verify is disabled in this project."
+    echo "   All pre-commit and commit-msg checks are mandatory."
+    echo "   Fix your code or commit message to proceed."
+    echo ""
+    exit 1
+  fi
+  # Block git -c core.hooksPath=/dev/null (nullifies all hooks)
   if [ "$prev" = "-c" ]; then
     case "$arg" in
       core.hooksPath=*)
         echo ""
-        echo "❌ ERROR: Overriding core.hooksPath is disabled in this project."
+        echo "❌ ERROR: Overriding core.hooksPath is disabled in this project"
         echo "   All pre-commit and commit-msg checks are mandatory."
         echo ""
         exit 1
@@ -33,4 +24,4 @@ for arg in "$@"; do
   fi
   prev="$arg"
 done
-exec command git "$@"
+exec /usr/bin/git "$@"
