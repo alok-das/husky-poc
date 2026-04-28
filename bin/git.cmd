@@ -21,3 +21,4 @@ for %%A in (%*) do (
 )
 
 git.exe %*
+test change
