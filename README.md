@@ -4,6 +4,16 @@
 $ npm install # or pnpm install or yarn install
 ```
 
+If you want the repository-local git wrapper and `.envrc` to activate automatically, install and enable direnv:
+
+```bash
+brew install direnv
+echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
+source ~/.zshrc
+cd /path/to/husky-poc
+direnv allow
+```
+
 ### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
 
 ## Available Scripts
