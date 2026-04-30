@@ -11,7 +11,7 @@ export default [
       parserOptions: {
         requireConfigFile: false,
         babelOptions: {
-          presets: ["@babel/preset-react"],
+          presets: [["@babel/preset-react", { runtime: "automatic", importSource: "solid-js" }]],
         },
       },
       globals: {
@@ -19,7 +19,7 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": ["warn", { "varsIgnorePattern": "^[A-Z]" }],
       "no-console": "warn",
     },
   },
