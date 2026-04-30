@@ -11,6 +11,8 @@
     "format": "prettier --write src",
     "test": "vitest run",
     "coverage:check": "vitest run --coverage",
+    "sonar:scan": "sonar-scanner",
+    "sonar": "vitest run --coverage && sonar-scanner",
     "prepare": "husky"
   },
   "dependencies": {
