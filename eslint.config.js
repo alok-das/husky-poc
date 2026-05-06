@@ -23,4 +23,19 @@ export default [
       "no-console": "warn",
     },
   },
+
+  // Max lines rule scoped to SCSS files under src folder only
+  {
+    files: ["src/**/*.scss"],
+    rules: {
+      "max-lines": [
+        "error",
+        {
+          max: 200,
+          skipBlankLines: true, // blank lines won't count
+          skipComments: true,   // comment-only lines won't count
+        },
+      ],
+    },
+  },
 ];
