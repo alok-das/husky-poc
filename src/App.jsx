@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png';
 import './App.css';
 
 function App() {
+  //test comment
   const [count, setCount] = createSignal(0);
 
   return (
