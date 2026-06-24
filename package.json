@@ -13,7 +13,9 @@
     "coverage:check": "vitest run --coverage",
     "sonar:scan": "sonar-scanner",
     "sonar": "vitest run --coverage && sonar-scanner",
-    "prepare": "husky"
+    "prepare": "husky install && node scripts/lock-husky.js",
+    "unlock-husky": "node scripts/unlock-husky.js",
+    "lock-husky": "node scripts/lock-husky.js"
   },
   "dependencies": {
     "solid-js": "^1.9.12"
